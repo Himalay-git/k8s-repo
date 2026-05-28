@@ -7,3 +7,25 @@ pool:
 variables:
 
 
+stages:
+  - stage: buildstsge
+    jobs:
+      - job: buildjob
+        steps:
+          - task: Docker@2
+            inputs:
+              containerRegistry: 'acr connection'
+              repository: 'indexfile'
+              command: 'buildAndPush'
+              Dockerfile: '**/Dockerfile'
+
+          - task: PublishBuildArtifacts@1
+            inputs:
+              PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+              ArtifactName: 'manifests'
+              publishLocation: 'Container'
+  - stage: deployStage
+    jobs:
+      - job: deployJob
+        steps:
+          
