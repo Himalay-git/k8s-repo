@@ -15,7 +15,7 @@ spec:
         app: myproject1
   spec:       
     containers:
-    - image: himalay.azurecr.io/indexfile:v1
+    - image: himalay.azurecr.io/indexfile:latest
       name: deploy-con
       ports:
       - containerPort: 80 
