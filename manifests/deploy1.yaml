@@ -16,6 +16,7 @@ spec:
   spec:       
     containers:
     - image: himalay.azurecr.io/indexfile:latest
+      imagePullPolicy: Always
       name: deploy-con
       ports:
       - containerPort: 80 
