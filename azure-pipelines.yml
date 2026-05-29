@@ -1,9 +1,8 @@
 trigger:
 - main
 
-pool: k8s
-
-variables:
+pool: 
+  vmImage: 'ubuntu-latest'
 
 
 stages:
@@ -23,8 +22,24 @@ stages:
               PathtoPublish: '$(Build.ArtifactStagingDirectory)'
               ArtifactName: 'manifests'
               publishLocation: 'Container'
+## Deploy stage
   - stage: deployStage
     jobs:
-      - job: deployJob
-        steps:
+    - deployment: deploy 
+      environment: dev
+      strategy:
+        runOnce:
+          deploy:
+            steps:
+            - download: current
+              artifact: manifests
+            - task: KubernetesManifest@1 
+              inputs:
+                action: 'deploy'
+                connectionType: 'kubernetesServiceConnection'
+                kubernetesServiceConnection: 'k8s connection'
+                namespace: 'default'
+                manifests: '$(Pipeline.Workspace)/manifests'
+                containers: 'himalay.azurecr.io/indexfile:$(Build.BuildId)'
+        
           
