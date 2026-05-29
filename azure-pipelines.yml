@@ -38,7 +38,10 @@ stages:
                 connectionType: 'kubernetesServiceConnection'
                 kubernetesServiceConnection: 'k8s connection'
                 namespace: 'default'
-                manifests: '$(System.DefaultWorkingDirectory)\manifests'
-                containers: 'himalay.azurecr.io/indexfile:$(Build.BuildId)'
+                manifests: |
+                  $(System.DefaultWorkingDirectory)/manifests/deployment.yml  
+                  $(System.DefaultWorkingDirectory)/manifests/service.yml
+                containers: |
+                  himalay.azurecr.io/indexfile:$(Build.BuildId)
         
           
